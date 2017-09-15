@@ -1,4 +1,5 @@
 #!/bin/bash
+mkdir obj apps
 g++ -IElement -IScene -c Scene/Scene.cpp -o obj/Scene.o
 g++ -IElement -c Element/Element.cpp -o obj/Element.o
 g++ -IUtils -IScene -c Utils/manager.cpp -o obj/manager.o

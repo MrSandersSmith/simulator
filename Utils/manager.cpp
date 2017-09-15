@@ -361,7 +361,9 @@ int main_loop(int argc, char *argv[], Simulator::Scene *scene) {
 
 		if (fabs(deltaTime - SKIP_TICKS) < 0.001) {
 			prevTime = curTime;
-			XClearWindow(display, window);
+			// XClearWindow(display, window);
+			scene->update();
+			glXSwapBuffers(display, window);
 		}
 	}
 
