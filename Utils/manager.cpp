@@ -76,6 +76,7 @@ double get_mseconds() {
 	// printf("CLOCK_MONOTONIC res: [%d]sec [%d]nsec\n", ts.tv_sec, ts.tv_nsec);
 }
 
+
 /* main_loop - основной цикл программы */
 
 int main_loop(int argc, char *argv[], Simulator::Scene *scene) {
@@ -141,7 +142,7 @@ int main_loop(int argc, char *argv[], Simulator::Scene *scene) {
 			glXGetFBConfigAttrib( display, fbc[i], GLX_SAMPLE_BUFFERS, &samp_buf );
 			glXGetFBConfigAttrib( display, fbc[i], GLX_SAMPLES       , &samples  );
 
-			printf( "  Matching fbconfig %d, visual ID 0x%2x: SAMPLE_BUFFERS = %d,"
+			printf( "  Matching fbconfig %d, visual ID 0x%2lu: SAMPLE_BUFFERS = %d,"
 					" SAMPLES = %d\n",
 					i, vi -> visualid, samp_buf, samples );
 
@@ -160,7 +161,7 @@ int main_loop(int argc, char *argv[], Simulator::Scene *scene) {
 
 	// Get a visual
 	XVisualInfo *vi = glXGetVisualFromFBConfig( display, bestFbc );
-	printf( "Chosen visual ID = 0x%x\n", vi->visualid );
+	printf( "Chosen visual ID = 0x%lu\n", vi->visualid );
 
 	printf( "Creating colormap\n" );
 	XSetWindowAttributes windowAttribs;
@@ -294,8 +295,7 @@ int main_loop(int argc, char *argv[], Simulator::Scene *scene) {
 	glClear(GL_COLOR_BUFFER_BIT);
 	glXSwapBuffers(display, window);
 
-	XSelectInput(display, window, 
-				 ExposureMask | ResizeRedirectMask | KeyPressMask | KeymapStateMask | StructureNotifyMask);
+	XSelectInput(display, window, ExposureMask | ResizeRedirectMask | KeyPressMask | KeymapStateMask | StructureNotifyMask);
 
 	// Таймер
 	double prevTime, curTime, deltaTime;
@@ -303,7 +303,7 @@ int main_loop(int argc, char *argv[], Simulator::Scene *scene) {
 
 	/* Создадим цикл получения и обработки событий */
 	XEvent event;
-	char str[25] = {0}; 
+	char str[25] = {0};
 	KeySym keysym = 0;
 	int len = 0;
 	bool running = true;
@@ -314,6 +314,7 @@ int main_loop(int argc, char *argv[], Simulator::Scene *scene) {
 		switch (event.type) {
 
 			case ResizeRequest:
+				// printf("event.xresizerequest.width:%d event.xresizerequest.height:%d\n", event.xresizerequest.width, event.xresizerequest.height);
 				scene->resize(event.xresizerequest.width, event.xresizerequest.height);
 				scene->update();
 				glXSwapBuffers(display, window);

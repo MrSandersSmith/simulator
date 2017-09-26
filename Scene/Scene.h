@@ -3,19 +3,19 @@
 
 namespace Simulator {
 
+	class Config;
 	class Element;
 
 	class Scene {
-		
+
 	public:
 		Scene();
 		~Scene();
-		bool add_element(Element *el);
-		bool remove_element(Element *el);
+		bool add_element( Element* el );
+		bool remove_element( Element* el );
 		void update();
-		void resize(unsigned int width, unsigned int height);
+		void init( Config& config );
 	};
-
 }
 
 #endif
