@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <GL/glut.h>
 #include <config.h>
+#include <tractor.h>
 #include <Scene.h>
 
 Simulator::Config config;
@@ -11,9 +12,17 @@ void display() {
 	glutSwapBuffers();
 }
 
-void reshape( int width, int height ) {
+void reshape(int width, int height) {
 	config.set_window_width(width).set_window_height(height);
 	scene.init(config);
+}
+
+void keyboard(unsigned char key, int x, int y) {
+	scene.on_keyboard(key);
+}
+
+void special(int key, int x, int y) {
+	scene.on_keyboard(key);
 }
 
 int main( int argc, char** argv ) {
@@ -24,6 +33,11 @@ int main( int argc, char** argv ) {
 	glutCreateWindow("Simulator");
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
+	glutKeyboardFunc(keyboard);
+	glutSpecialFunc(special);
+	Simulator::Tractor tractor;
+	tractor.set_position(0.0, 0.0, 0.0).set_direction(0.0, 1.0, 0.0);
+	scene.add_element("tractor", &tractor);
 	glutMainLoop();
 
 	#ifdef TEST_DEFINE

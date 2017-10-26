@@ -6,12 +6,14 @@ VPATH += :./Utils
 VPATH += :./
 
 #files
+OFILES += SMat.o
 OFILES += Element.o
+OFILES += tractor.o
 OFILES += Scene.o
 OFILES += config.o
 OFILES += main.o
 
-CXXFLAGS =
+CXXFLAGS = -std=c++11
 
 LINKFLAGS = -L/usr/lib/x86_64-linux-gnu -lGL -lglut -lGLU
 

@@ -1,8 +1,12 @@
 #include <stdio.h>
+#include <iostream>
+#include <string>
 #include <GL/glut.h>
 #include <config.h>
 #include <Element.h>
+#include <tractor.h>
 #include <Scene.h>
+#include <typeinfo>
 
 namespace Simulator {
 
@@ -12,37 +16,71 @@ namespace Simulator {
 	Scene::~Scene() {
 	}
 
-	bool Scene::add_element( Element* el ) {
+	void Scene::add_element(Element* el) {
+		// elements.push_back(el);
+
 	}
 
-	bool Scene::remove_element( Element* el ) {
+	void Scene::add_element(std::string name, Element* el) {
+		elements[name] = el;
+	}
+
+	bool Scene::remove_element(Element* el) {
 	}
 
 	void Scene::update() {
-		glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-		glBegin( GL_TRIANGLES );
-			glColor3f(  1.0f,  0.0f, 0.0f);
-			glVertex3f( 0.0f, -1.0f, 0.0f);
-			glColor3f(  0.0f,  1.0f, 0.0f);
-			glVertex3f(-1.0f,  1.0f, 0.0f);
-			glColor3f(  0.0f,  0.0f, 1.0f);
-			glVertex3f( 1.0f,  1.0f, 0.0f);
-		glEnd();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		std::map<std::string, Element*>::iterator itr;
+		for (itr = elements.begin(); itr != elements.end(); ++itr) {
+			itr->second->update();
+			// std::cout << itr->first << " " << itr->second << "\n";
+			// printf("%s\n", typeid(itr).name());
+		}
 	}
 
-	void Scene::init( Config& config ) {
+	void Scene::on_keyboard(unsigned char key) {
+		// switch (key) {
+		// 	case 27: // ESC
+		// 		// glutDestroyWindow();
+		// }
+	}
+
+	void Scene::on_keyboard(int key) {
+		Tractor* tractor = dynamic_cast<Tractor*>(elements["tractor"]);
+		switch (key) {
+			case GLUT_KEY_UP:
+				tractor->move_forward();
+				break;
+			case GLUT_KEY_DOWN:
+				tractor->move_back();
+				break;
+			case GLUT_KEY_LEFT:
+				tractor->turn_left();
+				break;
+			case GLUT_KEY_RIGHT:
+				tractor->turn_right();
+				break;
+		}
+		glutPostRedisplay();
+	}
+
+	void Scene::init(Config& config) {
 		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+		glClearDepth(1.0);
+		glEnable(GL_DEPTH_TEST);
 		GLsizei windowWidth = config.get_window_width();
 		GLsizei windowHeight = config.get_window_height();
-		glViewport( 0, 0, windowWidth, windowHeight );
-		glMatrixMode( GL_PROJECTION );
+		glViewport(0, 0, windowWidth, windowHeight);
+		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
+		double clipPlane = 30.0;
 		double aspect = (double) windowWidth / windowHeight;
 		if (windowWidth >= windowHeight) {
-			gluOrtho2D(-5.0 * aspect, 5.0 * aspect, -5.0, 5.0);
+			gluOrtho2D(-clipPlane * aspect, clipPlane * aspect, -clipPlane, clipPlane);
 		}
 		else {
-			gluOrtho2D(-5.0, 5.0, -5.0 / aspect, 5.0 / aspect);
+			gluOrtho2D(-clipPlane, clipPlane, -clipPlane / aspect, clipPlane / aspect);
 		}
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
