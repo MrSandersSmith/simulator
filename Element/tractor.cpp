@@ -3,7 +3,7 @@
 
 namespace Simulator {
 
-	Tractor::Tractor() : step(0.0), angle(0.1) {
+	Tractor::Tractor() : step(0.0), angle(0.0) {
 	}
 
 	Tractor::~Tractor() {
@@ -43,8 +43,8 @@ namespace Simulator {
 
 	void Tractor::update() {
 		glPushMatrix();
-			glTranslated(step * sin(angle * RAD_PER_DEG), step * cos(angle * RAD_PER_DEG), 0.0);
 			glRotated(angle, 0.0, 0.0, 1.0);
+			glTranslated(step * cos(angle * RAD_PER_DEG), step * sin(angle * RAD_PER_DEG), 0.0);
 			glPushMatrix();
 				glTranslated(-2.25, 0.0, 0.0);
 				draw_wheel(1.8, 1.0);

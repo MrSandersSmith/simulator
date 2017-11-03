@@ -1,12 +1,10 @@
 #include <stdio.h>
 #include <iostream>
-#include <string>
 #include <GL/glut.h>
 #include <config.h>
 #include <Element.h>
 #include <tractor.h>
 #include <Scene.h>
-#include <typeinfo>
 
 namespace Simulator {
 
@@ -18,14 +16,13 @@ namespace Simulator {
 
 	void Scene::add_element(Element* el) {
 		// elements.push_back(el);
-
 	}
 
 	void Scene::add_element(std::string name, Element* el) {
 		elements[name] = el;
 	}
 
-	bool Scene::remove_element(Element* el) {
+	void Scene::remove_element(Element* el) {
 	}
 
 	void Scene::update() {
@@ -34,8 +31,6 @@ namespace Simulator {
 		std::map<std::string, Element*>::iterator itr;
 		for (itr = elements.begin(); itr != elements.end(); ++itr) {
 			itr->second->update();
-			// std::cout << itr->first << " " << itr->second << "\n";
-			// printf("%s\n", typeid(itr).name());
 		}
 	}
 
