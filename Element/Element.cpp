@@ -15,7 +15,7 @@ namespace Simulator {
 	}
 
 	Element& Element::set_direction(double x, double y, double z) {
-		position = {x, y, z};
+		direction = {x, y, z};
 		return *this;
 	}
 

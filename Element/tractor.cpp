@@ -12,7 +12,7 @@ namespace Simulator {
 	void Tractor::draw_wheel(double radius, double width) {
 		double halfWidth = width / 2.0;
 		glColor3f(0.0f, 0.0f, 0.0f);
-		Element::draw_rect(-halfWidth, -radius, halfWidth, radius);
+		draw_rect(-halfWidth, -radius, halfWidth, radius);
 	}
 
 	void Tractor::draw_body_part(double length, double width) {
@@ -43,8 +43,8 @@ namespace Simulator {
 
 	void Tractor::update() {
 		glPushMatrix();
-			glRotated(angle, 0.0, 0.0, 1.0);
-			glTranslated(step * cos(angle * RAD_PER_DEG), step * sin(angle * RAD_PER_DEG), 0.0);
+			// glRotated(angle, 0.0, 0.0, 1.0);
+			// glTranslated(step * cos(angle * RAD_PER_DEG), step * sin(angle * RAD_PER_DEG), 0.0);
 			glPushMatrix();
 				glTranslated(-2.25, 0.0, 0.0);
 				draw_wheel(1.8, 1.0);

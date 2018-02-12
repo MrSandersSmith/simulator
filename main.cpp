@@ -36,7 +36,7 @@ int main( int argc, char** argv ) {
 	glutKeyboardFunc(keyboard);
 	glutSpecialFunc(special);
 	Simulator::Tractor tractor;
-	tractor.set_position(0.0, 0.0, 0.0).set_direction(0.0, 1.0, 0.0);
+	tractor.set_position(0.0, 0.0, 0.0).set_direction(0.0, 0.0, 0.0);
 	scene.add_element("tractor", &tractor);
 	glutMainLoop();
 
